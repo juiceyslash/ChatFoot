@@ -1,0 +1,59 @@
+<!-- HTML -->
+<div id="chat-container" style="max-width: 300px; margin: 0 auto; overflow-y: scroll; background-color: #f9f9f9; border-radius: 8px; padding: 15px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+  <div id="chat-display" style="padding: 10px;"></div>
+  <input type="text" id="user-input" placeholder="Digite sua mensagem..." style="box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-top: 10px;">
+  <input type="file" id="image-input" accept="image/*" style="box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-top: 10px;">
+  <button onclick="sendMessage()" style="box-sizing: border-box; width: 100%; padding: 10px; background-color: #4700FF; color: white; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer;">Enviar</button>
+</div>
+
+<script>
+  // JavaScript
+  const chatDisplay = document.getElementById('chat-display');
+  const userInput = document.getElementById('user-input');
+  const imageInput = document.getElementById('image-input');
+
+  function sendMessage() {
+    const userMessage = userInput.value;
+    const imageData = imageInput.files[0];
+
+    if (userMessage.trim() === '' && !imageData) {
+      return; // Não envie mensagens vazias ou sem imagem
+    }
+
+    displayMessage('user', userMessage, imageData);
+
+    // Lógica para processar a mensagem do usuário e gerar uma resposta
+    const response = generateResponse(userMessage);
+    displayMessage('participant', response);
+
+    // Limpar campos de entrada
+    userInput.value = '';
+    imageInput.value = null;
+
+    // Rolar para a última mensagem
+    chatDisplay.scrollTop = chatDisplay.scrollHeight;
+  }
+
+  function displayMessage(sender, message, imageData) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add(sender);
+    messageElement.style.fontFamily = 'Arial, sans-serif';
+
+    if (imageData) {
+      const imageElement = document.createElement('img');
+      imageElement.src = URL.createObjectURL(imageData);
+      imageElement.style.maxWidth = '100%';
+      messageElement.appendChild(imageElement);
+    } else {
+      messageElement.textContent = message;
+    }
+
+    chatDisplay.appendChild(messageElement);
+  }
+
+  function generateResponse(userMessage) {
+    // Lógica para gerar uma resposta com base na mensagem do usuário
+    // Aqui você pode ajustar conforme necessário ou adicionar uma lógica mais complexa
+    return ''; // Mensagem vazia ou substituir por sua própria lógica
+  }
+</script>
